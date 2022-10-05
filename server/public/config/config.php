@@ -1,8 +1,11 @@
 <?php
 
+
 return [
-    'dns' => "mysql:host=olx_mysql;port=3306;dbname=olx",
-    'username' => 'myapp',
-    'password' => 'myapp',
+    'dns' => 'mysql:host=' . $_ENV['DB_HOST'] . ';port=' . $_ENV['DB_PORT'] . ';dbname=' . $_ENV['DB_DATABASE'],
+    'username' => $_ENV['DB_USERNAME'],
+    'password' => $_ENV['DB_PASSWORD'],
 ];
+
+
 

@@ -1,8 +1,10 @@
 <?php
 require '../vendor/autoload.php';
-use Symfony\Component\Dotenv\Dotenv;
 
+define('ROOT', dirname(__DIR__));
+
+use Symfony\Component\Dotenv\Dotenv;
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/.env');
+$dotenv->load(ROOT . '/.env');
 
 require 'connDb.php';
