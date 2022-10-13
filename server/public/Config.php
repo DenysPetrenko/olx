@@ -1,29 +1,26 @@
 <?php
 
-/**
- * /* @ author Denys Petrenko < Des . Petrenko @ gmail . com >
- * Singlton
- */
-
-
-final class Config
+class Config
 {
-    private static $instances = [];
+    protected $pdo;
+    protected static $instance;
 
-    protected function __construct() { }
-
-    protected function __clone() { }
-
-    /**
-     * @return Singleton
-     */
-    public static function getInstance(): Singleton
+    protected function __construct()
     {
-        $cls = __CLASS__;
-        if (!isset(self::$instances[$cls])) {
-            self::$instances[$cls] = new Config();
-        }
 
-        return self::$instances[$cls];
+    }
+
+    protected function __clone()
+    {
+    }
+
+
+    public static function getInstance(): Config
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 }
+
