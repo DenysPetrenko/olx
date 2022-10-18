@@ -2,40 +2,21 @@
 
 namespace Models;
 
-
-use Config;
-use PDO;
-use PDOException;
+use _PHPStan_acbb55bae\React\Dns\Config\Config;
 
 
-require_once 'Config.php';
 
-class Model extends Config
+class Model
 {
 
-    public function db()
+
+    public function getAllBySQL()
     {
-        try {
-            $config = Config::getInstance();
-            $db = require 'config/config.php';
-            $options = [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ];
-
-
-            $connDb = new PDO($db['dns'], $db['username'], $db['password'], $options);
-            $connDb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            echo "Connected successfully";
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
-        var_dump($connDb);
-
+        $db = \Config::getInstance();
+        
     }
 
-
-    public function selectAllBySQL()
+    public function getOneBySql()
     {
 
     }
