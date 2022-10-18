@@ -3,20 +3,29 @@
 namespace Models;
 
 use _PHPStan_acbb55bae\React\Dns\Config\Config;
-
+use PDO;
+use PDOException;
 
 
 class Model
 {
+    protected string $table;
 
-
-    public function getAllBySQL()
+    /**
+     * @return \Config
+     */
+    public function db(): \Config
     {
-        $db = \Config::getInstance();
-        
+        return \Config::getInstance();
     }
 
-    public function getOneBySql()
+    public function getAllBySQL(): void
+    {
+        $query = 'SELECT * FROM `payments`';
+        $result = $this->db()->query($query);
+    }
+
+    public function getOneBySql(): void
     {
 
     }
