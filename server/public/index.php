@@ -10,10 +10,9 @@ $dotenv = new Dotenv();
 $dotenv->load(ROOT . '/.env');
 
 
-require 'Config.php';
+require 'ConfigDb.php';
 require 'Model.php';
 
 $test = new Model();
-$test->getAllBySQL();
+$test->sortBySql();
 print_r($test);
-

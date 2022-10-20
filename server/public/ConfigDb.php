@@ -1,11 +1,12 @@
 <?php
 
 /* @ author Denys Petrenko < Des . Petrenko @ gmail . com >
+ * singlton
  */
-class Config
+class ConfigDb
 {
 
-    private static Config $instance;
+    private static ?ConfigDb $instance = null;
     protected PDO $pdo;
 
 
@@ -21,6 +22,7 @@ class Config
         try {
             $this->pdo = new PDO($db['dns'], $db['username'], $db['password'], $options);
             echo 'connect to DB';
+
         } catch (PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
@@ -35,7 +37,7 @@ class Config
 
 
     public
-    static function getInstance(): Config
+    static function getInstance(): ConfigDb
     {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -43,8 +45,15 @@ class Config
         return self::$instance;
     }
 
+    public function getPdo(string $query): array
+    {
+
+        return $this->pdo->query($query)->fetchAll();
+
+    }
+
     public
-    function test()
+    function test(): void
     {
         var_dump($this);
     }
