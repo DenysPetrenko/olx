@@ -3,44 +3,66 @@
 namespace Models;
 
 use _PHPStan_acbb55bae\React\Dns\Config\Config;
+use ConfigDb;
 use PDO;
 use PDOException;
 
-
+/* @ author Denys Petrenko < Des . Petrenko @ gmail . com >
+ */
 class Model
 {
-    protected string $table;
+    /**
+     * @var string
+     */
+    protected string $tableName;
+    /**
+     * @var string
+     */
+    protected string $params;
 
 
     /**
-     * @return \ConfigDb
+     * @return ConfigDb
      */
-    public function db(): \ConfigDb
+    public function db(): ConfigDb
     {
-        return \ConfigDb::getInstance();
+        return ConfigDb::getInstance();
     }
 
-
-    public function getAllBySQL(): void
+    /**
+     * @param string $tableName
+     * @return array
+     */
+    public function getAllBySQL(string $tableName): array
     {
-
-        $query = 'SELECT * FROM `payments`';
-        $data = $this->db()->getPdo($query);
-        var_dump($data);
+        $query = "SELECT * FROM `{$tableName}`";
+        return $this->db()->getPdo($query);
     }
 
-
-    public function getOneBySql(): void
+    /**
+     * @param string $tableName
+     * @return array
+     */
+    public function getOneBySql(string $tableName): array
     {
-        $query = 'SELECT * FROM `payments` LIMIT 1';
-        $data = $this->db()->getPdo($query);
-        var_dump($data);
+        $query = "SELECT * FROM {$tableName} LIMIT 1";
+        return $this->db()->getPdo($query);
+
     }
 
-    public function addToDb(): void
+    public function addToDb(string $tableName, array $params): void
     {
-        $query = "INSERT INTO `test` ( `name`, `second`) VALUES ('ddddd', '2')";
-        $data = $this->db()->getPdo($query);
+
+        $columns = implode(',', $params);
+        // разделяем  входной массив через сепаратор в строку
+        $escVal = array_map(array($this->db()->getConnect(), 'quote'), $params);
+//        $escVal = array_map([$this->db()->getPdo(), 'quote'], array_values($params));
+//        прогоняем масив для избавления от спецсимволо
+        $values = implode(',', $escVal);
+//        из второго массива
+        $query = "INSERT INTO `{$tableName}` ($columns) VALUES ($values)";
+        $data = $this->db()->getConnect()->query($query);
+//        $data = $this->db()->getPdo($query);
         var_dump($data);
     }
 
@@ -59,7 +81,7 @@ class Model
 
     }
 
-    public function sortBySql()
+    public function sortBySql(): void
     {
         $query = "SELECT * FROM `test` ORDER BY id";
         $data = $this->db()->getPdo($query);

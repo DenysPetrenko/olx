@@ -45,6 +45,18 @@ class ConfigDb
         return self::$instance;
     }
 
+    public function getConnect(): ?PDO
+    {
+        try {
+            return self::getInstance()->pdo;
+        } catch (Exception $exception) {
+            echo "I was unable to open a connection to the database. " . $exception->getMessage();
+            return null;
+        }
+
+
+    }
+
     public function getPdo(string $query): array
     {
 
